@@ -33,4 +33,15 @@ def criar():
 
     return redirect("/")
 
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/autenticar", methods=["POST",])
+def autenticar():
+    if "mestra" == request.form["senha"]:
+        return redirect("/")
+    else:
+        return redirect("/login")
+
 app.run(host='127.0.0.1', port=8080, debug=True)
