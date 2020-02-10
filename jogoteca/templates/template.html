@@ -8,6 +8,7 @@
   </head>
   <body>
     <div class="container">
+      
       {% with messages = get_flashed_messages() %}
         {% if messages %} 
           <ul id="messages" class="list-unstyled">
@@ -16,7 +17,8 @@
           {% endfor %}
           </ul>
         {% endif %}
-      {% endwith %}  
+      {% endwith %}
+        
       <div class="page-header">
             <h1>{{titulo}}</h1>
         </div>

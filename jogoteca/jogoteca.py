@@ -16,12 +16,14 @@ lista = [jogo1, jogo2, jogo3]
 
 @app.route("/")
 def index():
-    
     return render_template('lista.html', titulo="Jogos", jogos=lista)
 
 @app.route("/novo")
 def novo():
-    return render_template("novo.html", titulo="Novo Jogo")
+    if("usuario_logado" not in session or session['usuario_logado'] == None):
+        return redirect("/login?proxima=novo")
+    else:
+        return render_template("novo.html", titulo="Novo Jogo")
 
 @app.route("/criar", methods=["POST",])
 def criar():
@@ -36,13 +38,14 @@ def criar():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    proxima = request.args.get("proxima")#args pega os argumetos passado por query string
+    return render_template("login.html", proxima=proxima)
 
 @app.route("/autenticar", methods=["POST",])
 def autenticar():
     if "mestra" == request.form["senha"]:
-        session['usuario_logado'] = request.form['usuario']
-        flash(request.form["usuario"] + " logou com sucesso!")
+        session['usuario_logado'] = request.form['usuario'] #session armazena dados do usuario por mais de um ciculo de request
+        flash(request.form["usuario"] + " logou com sucesso!")#messagem flash. Mostra a rapido a mensagem
         return redirect("/")
     else:
         flash("Não logado, tente novamente!")
